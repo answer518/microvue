@@ -6,14 +6,14 @@
 </head>
 <body>
 	<div id="vue-app">
-		<input type="text" v-model="word">
+		<!-- <input type="text" v-model="word"> -->
 		<p>{{word}}</p>
-		<button v-on:click="sayHi">change model</button>
+		<!-- <button v-on:click="sayHi">change model</button> -->
 	</div>
 
 	<script src="vue.1.0.25.js"></script>
 	<script>
-		var vm = new Vue({
+		var vm = new MVVM({
 			el: '#vue-app',
 			data: {
 				word: 'Hello World!'
