@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>title</title>
+    <meta charset="utf-8">
+    <script src="dist/seed.js"></script>
+</head>
+
+<body>
+    <div id="test" mv-on-click="changeMessage | .button">
+        <!-- <p mv-text="msg | capitalize"></p>
+        <p mv-show="something">YOYOYO</p> -->
+        <p class="button" mv-text="msg"></p>
+        <p mv-class-red="error" mv-text="hello"></p>
+    </div>
+    <script>
+    var MVVM = require('seed');
+
+    var app = new MVVM({
+        id: 'test',
+        // template
+        data: {
+            msg: 'hello',
+            hello: 'WHWHWHW',
+            changeMessage: function() {
+                app.scope.msg = 'hola'
+            }
+        }
+    })
+    </script>
+</body>
+
+</html>
