@@ -46,7 +46,6 @@
             })
             Object.defineProperty(data, variable, {
                 set: function(newVal) {
-                	console.log(newVal);
                     [].forEach.call(bindings[variable].els, function(e) {
                         bindings[variable].value = e.textContent = newVal
                     })
