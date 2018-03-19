@@ -1,11 +1,14 @@
-﻿{
+{
+    //"bitwise": true,
+    //"camelcase": true,
+    "curly": true,
     "eqeqeq": true,
-    "browser": true,
+    //"es3": false,
     "asi": true,
-    "multistr": true,
+    //"freeze": true,
     "undef": true,
-    "unused": true,
-    "trailing": true,
+    "unused": false,
+    "strict": false,
     "sub": true,
     "node": true,
     "globals": {
