@@ -1,16 +1,15 @@
 {
-    //"bitwise": true,
-    //"camelcase": true,
-    "curly": true,
     "eqeqeq": true,
-    //"es3": false,
+    "browser": true,
     "asi": true,
-    //"freeze": true,
+    "multistr": true,
     "undef": true,
-    "unused": false,
-    "strict": false,
+    "esversion": 5,
+    //"unused": false,
+    "trailing": true,
     "sub": true,
     "node": true,
+    "laxbreak": true,
     "globals": {
         "console": true
     }

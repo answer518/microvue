@@ -1,4 +1,4 @@
-module.exports = function( grunt ) {
+module.exports = function(grunt) {
 
     grunt.initConfig({
 
@@ -40,11 +40,11 @@ module.exports = function( grunt ) {
 
     })
 
-    grunt.loadNpmTasks( 'grunt-contrib-watch' )
-    grunt.loadNpmTasks( 'grunt-contrib-jshint' )
-    grunt.loadNpmTasks( 'grunt-component-build' )
-    grunt.loadNpmTasks( 'grunt-mocha' )
-    grunt.registerTask( 'test', ['mocha'] )
-    grunt.registerTask( 'default', ['jshint', 'component_build', 'mocha'] )
-    
+    grunt.loadNpmTasks('grunt-contrib-watch')
+    grunt.loadNpmTasks('grunt-contrib-jshint')
+    grunt.loadNpmTasks('grunt-component-build')
+    grunt.loadNpmTasks('grunt-mocha')
+    grunt.registerTask('test', ['mocha'])
+    grunt.registerTask('default', [/*'jshint',*/ 'component_build' /*, 'mocha'*/ ])
+
 }
