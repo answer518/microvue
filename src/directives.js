@@ -24,8 +24,13 @@ module.exports = {
                 handlers[event] = handler
             }
         },
-        unbind: function() {
-
+        unbind: function(el, event, directive) {
+            if(directive.handlers) {
+                el.removeEventListener(event, directive.handlers[event]);
+            }
         }
+    },
+    repeat: function() {
+        
     }
 }
