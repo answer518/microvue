@@ -8,11 +8,11 @@
 </head>
 
 <body>
-    <div id="test" mv-on-click="changeMessage | .button">
-        <!-- <p mv-text="msg | capitalize"></p>
-        <p mv-show="something">YOYOYO</p> -->
+    <div id="test" mv-on-click="changeMessage">
+        <p mv-text="msg | capitalize"></p>
+        <!-- <p mv-show="something">YOYOYO</p> -->
         <p class="button" mv-text="msg"></p>
-        <p mv-class-red="error" mv-text="hello"></p>
+        <p mv-text="hello"></p>
     </div>
     <script>
     var MVVM = require('seed');
@@ -28,6 +28,8 @@
             }
         }
     })
+
+    console.log(app)
     </script>
 </body>
 

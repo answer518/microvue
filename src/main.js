@@ -11,21 +11,20 @@ function MVVM(opts) {
         els = root.querySelectorAll(selector),
         bindings = {} // 接受外部传递的数据
 
-    self.scope = {}
+    _self.scope = {};
     // 遍历元素，并解析指令
-    ;
     [].forEach.call(els, processNode)
-        // processNode(root)
+        processNode(root)
 
     for (var key in bindings) {
-        self.scope[key] = opts.data[key]
+        _self.scope[key] = opts.data[key]
     }
 
     function processNode(el) {
         cloneAttributes(el.attributes).forEach(function(attr) {
             var directive = parseDirective(attr)
             if (directive) {
-                bindDirective(self, el, bindings, directive)
+                bindDirective(_self, el, bindings, directive)
             }
         })
     }
@@ -34,12 +33,40 @@ function MVVM(opts) {
 // clone attributes so they don't change
 function cloneAttributes(attributes) {
     return [].map.call(attributes, function(attr) {
-        // console.log(attr.name + '   ' + attr.value)
         return {
             name: attr.name,
             value: attr.value
         }
     })
+}
+
+function parseDirective(attr) {
+    if (attr.name.indexOf(prefix) === -1) return
+
+    var noprefix = attr.name.slice(prefix.length + 1),
+        argIndex = noprefix.indexOf('-'),
+        dirname  = argIndex === -1
+                ? noprefix
+                : noprefix.slice(0, argIndex),
+        def = Directives[dirname],
+        arg = argIndex === -1
+        ? null
+        : noprefix.slice(argIndex + 1)
+    
+    var exp = attr.value,
+        pipeIndex = exp.indexOf('|'),
+        key = pipeIndex === -1 ? exp.trim() : exp.slice(0, pipeIndex).trim(),
+        filters = pipeIndex === -1 ? null : exp.slice(pipeIndex + 1).split('|').map(function(filter){
+            return filter.trim();
+        });
+
+    return def ? {
+        attr: attr,
+        key: key,
+        render: typeof def === 'function' ? def : def.update,
+        argument: arg,
+        filters: filters
+    } : null;
 }
 
 function bindDirective(seed, el, bindings, directive) {
@@ -57,8 +84,8 @@ function bindDirective(seed, el, bindings, directive) {
     directive.el = el;
     bingding.directives.push(directive);
 	// invoke bind hook if exists
-    if (directive.bind) {
-        // directive.bind(el, binding.value)
+    if (directive.bind) { // 没懂
+        directive.bind(el, binding.value)
     }
 
     if(!seed.scope.hasOwnProperty(key)) {
@@ -74,13 +101,16 @@ function bindAccessors (seed, key, binding) {
         set: function (value) {
             binding.value = value
             binding.directives.forEach(function (directive) {
+                var _value;
+                
                 if (value && directive.filters) {
-                    value = applyFilters(value, directive)
+                    _value = applyFilters(value, directive)
                 }
+                
                 directive.render(
                     directive.el,
-                    value,
-                    directive.argument,
+                    _value || value,
+                    directive.argument, // on-click等
                     directive,
                     seed
                 )
@@ -89,22 +119,13 @@ function bindAccessors (seed, key, binding) {
     })
 }
 
-function parseDirective(attr) {
-    if (attr.name.indexOf(prefix) === -1) return
+function applyFilters(value, directive) {
+    
+    directive.filters.forEach(function(filter) {
+        value = Filters[filter](value);
+    })
 
-    var noprefix = attr.name.slice(prefix.length + 1),
-        dirname = noprefix,
-        def = Directives[dirname],
-        arg = null;
-
-    var exp = attr.value,
-        key = exp.trim();
-
-    return def ? {
-        attr: attr,
-        key: key,
-        render: def
-    } : null;
+    return value;
 }
 
 module.exports = MVVM;
