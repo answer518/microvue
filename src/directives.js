@@ -1,12 +1,12 @@
 module.exports = {
-    text: function(el, value) {
-        el.textContent = value || ''
+    text: function(value) {
+        this.el.textContent = value || ''
     },
-    show: function(el, value) {
-        el.style.display = value ? '' : 'none'
+    show: function(value) {
+        this.el.style.display = value ? '' : 'none'
     },
-    class: function(el, value, classname) {
-        el.classList[value ? 'add' : 'remove'](classname)
+    class: function(value) {
+        this.el.classList[value ? 'add' : 'remove'](this.arg)
     },
     on: {
     	update: function(el, handler, event, directive) {
