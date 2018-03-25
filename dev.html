@@ -11,7 +11,7 @@
     <div id="test" mv-on-click="changeMessage">
         <p mv-text="msg | capitalize"></p>
         <!-- <p mv-show="something">YOYOYO</p> -->
-        <p class="button" mv-text="msg"></p>
+        <p class="button" mv-text="msg | uppercase"></p>
         <p mv-text="hello"></p>
     </div>
     <script>
@@ -28,8 +28,6 @@
             }
         }
     })
-
-    console.log(app)
     </script>
 </body>
 
