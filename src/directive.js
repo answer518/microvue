@@ -9,8 +9,13 @@ function Directive(def, attr, arg, key) {
     if (typeof def === 'function') {
         this._update = def;
     } else {
-        this._update = function() {
-            // console.log(arguments)
+        // 处理事件用的
+        for (var prop in def) {
+            if (prop === 'update') {
+                this['_update'] = def.update
+                continue
+            }
+            this[prop] = def[prop]
         }
     }
 
@@ -57,8 +62,8 @@ module.exports = {
             directive = Directives[name],
             arg = argIndex === -1
                 ? null
-                : noprefix.slice(argIndex + 1)
-
+                : noprefix.slice(argIndex + 1) // click 字段
+        
         var key = attr.value.match(KEY_RE);
         return directive ? new Directive(directive, attr, arg, key[0].trim()) : null;
     }

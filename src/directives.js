@@ -6,31 +6,33 @@ module.exports = {
         this.el.style.display = value ? '' : 'none'
     },
     class: function(value) {
-        this.el.classList[value ? 'add' : 'remove'](this.arg)
+        this.el.classList[!value ? 'add' : 'remove'](this.arg)
     },
     on: {
-    	update: function(el, handler, event, directive) {
-            
-    		if (!directive.handlers) {
-                directive.handlers = {}
+    	update: function(handler) {
+            var event = this.arg;
+    		if (!this.handlers) {
+                this.handlers = {}
             }
-            var handlers = directive.handlers
+            var handlers = this.handlers
             if (handlers[event]) {
-                el.removeEventListener(event, handlers[event])
+                this.el.removeEventListener(event, handlers[event])
             }
-            if (handler) {
-                handler = handler.bind(el)
-                el.addEventListener(event, handler)
+            
+            if (handler) { // like event hanlder changeMessage..
+                handler = handler.bind(this.el)
+                this.el.addEventListener(event, handler)
                 handlers[event] = handler
             }
         },
-        unbind: function(el, event, directive) {
-            if(directive.handlers) {
-                el.removeEventListener(event, directive.handlers[event]);
+        unbind: function() {
+            var event = this.arg;
+            if(this.handlers) {
+                this.el.removeEventListener(event, this.handlers[event]);
             }
         }
     },
-    repeat: function() {
-        
+    each: function() {
+        console.log(this.arg);
     }
 }

@@ -12,7 +12,11 @@
         <p mv-text="msg | capitalize"></p>
         <!-- <p mv-show="something">YOYOYO</p> -->
         <p class="button" mv-text="msg | uppercase"></p>
+        <p mv-class-red="error" mv-text="hello"></p>
         <p mv-text="hello"></p>
+        <div mv-each="todos">
+            <span mv-text="text"></span>
+        </div>
     </div>
     <script>
     var MVVM = require('seed');
@@ -25,7 +29,17 @@
             hello: 'WHWHWHW',
             changeMessage: function() {
                 app.scope.msg = 'hola'
-            }
+            },
+            todos: [
+                {
+                    title: 'make this shit work',
+                    done: false
+                },
+                {
+                    title: 'make this shit kinda work',
+                    done: true
+                }
+            ]
         }
     })
     </script>
