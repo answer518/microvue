@@ -1,4 +1,5 @@
-var Directives = require('./directives'),
+var Config = require('./config'),
+    Directives = require('./directives'),
     Filters = require('./filters')
 
 var KEY_RE = /^[^\|]+/,
@@ -51,7 +52,8 @@ Directive.prototype.applyFilter = function (value) {
 }
 
 module.exports = {
-    parse: function (attr, prefix) {
+    parse: function (attr) {
+        var prefix = Config.prefix;
         if (attr.name.indexOf(prefix) === -1) return null // dont't begin with 'mv-' prefix.
 
         var noprefix = attr.name.slice(prefix.length + 1),
@@ -63,7 +65,7 @@ module.exports = {
             arg = argIndex === -1
                 ? null
                 : noprefix.slice(argIndex + 1) // click 字段
-        
+
         var key = attr.value.match(KEY_RE);
         return directive ? new Directive(directive, attr, arg, key[0].trim()) : null;
     }

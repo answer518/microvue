@@ -1,3 +1,6 @@
+var config = require('./config'),
+    watchArray = require('./watchArray');
+
 module.exports = {
     text: function(value) {
         this.el.textContent = value || ''
@@ -20,7 +23,6 @@ module.exports = {
             }
             
             if (handler) { // like event hanlder changeMessage..
-                handler = handler.bind(this.el)
                 this.el.addEventListener(event, handler)
                 handlers[event] = handler
             }
@@ -32,7 +34,12 @@ module.exports = {
             }
         }
     },
-    each: function() {
-        console.log(this.arg);
+    each: {
+        update: function(arr) {
+            watchArray(arr, this.mutate.bind(this))
+        },
+        mutate: function() {
+            console.log(this);
+        }
     }
 }

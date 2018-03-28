@@ -1,8 +1,8 @@
-var prefix = 'mv',
+var Config = require('./config'),
     Directive = require('./directive'),
     Directives = require('./directives'),
     selector = Object.keys(Directives).map(function (d) {
-        return '[' + prefix + '-' + d + ']'
+        return '[' + Config.prefix + '-' + d + ']'
     }).join()
 
 function MVVM(opts) {
@@ -24,7 +24,7 @@ function MVVM(opts) {
 MVVM.prototype.compileNode = function (node) {
     var _self = this;
     cloneAttributes(node.attributes).forEach(function (attr) {
-        var directive = Directive.parse(attr, prefix);
+        var directive = Directive.parse(attr, Config.prefix);
         if (directive) {
             _self.bind(node, directive);
         }
