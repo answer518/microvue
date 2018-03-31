@@ -22,35 +22,36 @@
         <!-- <p mv-show="something">YOYOYO</p> -->
         <p class="button" mv-text="msg | uppercase"></p>
         <p mv-class-red="error" mv-text="hello"></p>
-        <p mv-text="hello"></p>
-        <div mv-each="todos">
-            <span mv-text="text"></span>
-        </div>
+        <ul>
+            <li mv-each-todo="todos">
+                <span class="todo" mv-text="todo.title" mv-class-done="todo.done"></span>   
+            </li>
+        </ul>
     </div>
     <script>
-    var MVVM = require('seed');
-
-    var app = new MVVM({
-        id: 'test',
-        // template
-        data: {
+        var MVVM = require('seed');
+        var list = [
+            {
+                title: 'make this shit kinda work',
+                done: true
+            },
+            {
+                title: 'make this shit work',
+                done: false
+            },
+            {
+                title: 'more features!!!',
+                done: false
+            }
+        ]
+        var app = new MVVM('#test', {
             msg: 'hello',
             hello: 'WHWHWHW',
-            changeMessage: function() {
+            changeMessage: function () {
                 app.scope.msg = 'hola'
             },
-            todos: [
-                {
-                    title: 'make this shit work',
-                    done: false
-                },
-                {
-                    title: 'make this shit kinda work',
-                    done: true
-                }
-            ]
-        }
-    })
+            todos: list
+        })
     </script>
 </body>
 

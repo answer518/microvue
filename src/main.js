@@ -1,81 +1,34 @@
 var Config = require('./config'),
-    Directive = require('./directive'),
+    Mv = require('./mv'),
     Directives = require('./directives'),
-    selector = Object.keys(Directives).map(function (d) {
-        return '[' + Config.prefix + '-' + d + ']'
-    }).join()
+    filters = require('./filters')
 
-function MVVM(opts) {
-    var _self = this,
-        root = this.el = document.getElementById(opts.id),
-        els = root.querySelectorAll(selector)
+Mv.config = Config;
 
-    _self.bindings = {};// 接受外部传递的数据
-    _self.scope = {};
-    // 遍历元素，并解析指令
-    [].forEach.call(els, this.compileNode.bind(this))
-    this.compileNode(root)
-
-    for (var key in _self.bindings) {
-        _self.scope[key] = opts.data[key]
-    }
-}
-
-MVVM.prototype.compileNode = function (node) {
-    var _self = this;
-    cloneAttributes(node.attributes).forEach(function (attr) {
-        var directive = Directive.parse(attr, Config.prefix);
-        if (directive) {
-            _self.bind(node, directive);
+Mv.extends = function (opts) {
+    var Spore = function () {
+        Mv.apply(this, arguments)
+        for (var prop in this.extensions) {
+            var ext = this.extensions[prop]
+            this.scope[prop] = (typeof ext === 'function')
+                ? ext.bind(this)
+                : ext
         }
-    })
-}
-
-// clone attributes so they don't change
-function cloneAttributes(attributes) {
-    return [].map.call(attributes, function (attr) {
-        return {
-            name: attr.name,
-            value: attr.value
-        }
-    })
-}
-
-MVVM.prototype.bind = function (node, directive) {
-    directive.el = node;
-    node.removeAttribute(directive.attr.name);
-
-    var key = directive.key,
-        binding = this.bindings[key] || this.createBinding(key);
-
-    binding.directives.push(directive);
-    // invoke bind hook if exists
-    if (directive.bind) { // 一直没用上
-        directive.bind(el, binding.value)
     }
-}
-
-MVVM.prototype.createBinding = function (key) {
-
-    var binding = {
-        value: undefined,
-        directives: []
+    Spore.prototype = Object.create(Mv.prototype)
+    Spore.prototype.extensions = {}
+    for (var prop in opts) {
+        Spore.prototype.extensions[prop] = opts[prop]
     }
-
-    this.bindings[key] = binding;
-    Object.defineProperty(this.scope, key, {
-        get: function () {
-            return binding.value
-        },
-        set: function (value) {
-            binding.value = value
-            binding.directives.forEach(function (directive) {
-                directive.update(value);
-            })
-        }
-    });
-
-    return binding;
+    return Spore
 }
 
-module.exports = MVVM;
+Mv.directive = function (name, fn) {
+    directives[name] = fn
+}
+
+Mv.filter = function (name, fn) {
+    filters[name] = fn
+}
+
+module.exports = Mv;
