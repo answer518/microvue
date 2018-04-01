@@ -36,9 +36,11 @@ module.exports = {
     },
     each: {
         bind: function () {
-            this.el['mv-block'] = true
+            // 起到了停止each的作用
+            this.el.removeAttribute(config.prefix + '-each')
             this.prefixRE = new RegExp('^' + this.arg + '.')
             var ctn = this.container = this.el.parentNode
+            console.log(this.el)
             this.marker = document.createComment('mv-each-' + this.arg + '-marker')
             ctn.insertBefore(this.marker, this.el)
             ctn.removeChild(this.el)
@@ -63,9 +65,10 @@ module.exports = {
         },
         buildItem: function (data, index, collection) {
             var node = this.el.cloneNode(true),
+                MVVM = require('./mv'),
                 spore = new MVVM(node, data, {
                     eachPrefixRE: this.prefixRE,
-                    parentScope: this.mv.scope
+                    parentScope: this.mv
                 })
             this.container.insertBefore(node, this.marker)
             collection[index] = spore.scope

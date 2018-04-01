@@ -132,7 +132,7 @@ Mv.prototype._bind = function (node, bindingInstance) {
     if (isEachKey) {
         key = key.replace(epr, '')
     } else if (epr) {
-        scopeOwner = this._options.parentSeed
+        scopeOwner = this._options.parentScope
     }
 
     var binding = scopeOwner._bindings[key] || scopeOwner._createBinding(key)
