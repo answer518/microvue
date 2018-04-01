@@ -19,3 +19,35 @@ var data = {
 }
 ```
 采用递归算法，直到监听的属性不再是对象类型为止。
+
+## 如何监听一个数组的变化
+
+```javascript
+var proto = Array.prototype,
+    slice = proto.slice,
+    fakeMethods = [
+        'pop',
+        'push',
+        'reverse',
+        'shift',
+        'unshift',
+        'splice',
+        'sort'
+    ]
+
+module.exports = function(arr, callback) {
+    fakeMethods.forEach(function(method) {
+        arr[method] = function() {
+            proto[method].apply(this, arguments);
+            // 这里用于通知
+            callback({
+                method: method,
+                args: slice.call(arguments),
+                array: arr
+            })
+        }
+    });
+}
+````
+
+这里并没有重写Array类的方法，而是巧妙的通过重新创建一个"数组对象"来达到监听数组元素变化的目的。
