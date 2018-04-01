@@ -9,8 +9,9 @@
 		"src/config.js",
 		"src/mv.js",
 		"src/directives.js",
-		"src/directive.js",
+		"src/binding.js",
 		"src/filters.js",
+		"src/controllers.js",
     	"src/watchArray.js"
 	]
 }

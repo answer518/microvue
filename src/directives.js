@@ -9,7 +9,7 @@ module.exports = {
         this.el.style.display = value ? '' : 'none'
     },
     class: function (value) {
-        this.el.classList[!value ? 'add' : 'remove'](this.arg)
+        this.el.classList[value ? 'add' : 'remove'](this.arg)
     },
     on: {
         update: function (handler) {
