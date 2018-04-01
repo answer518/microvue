@@ -121,8 +121,6 @@ Mv.prototype._bind = function (node, bindingInstance) {
     bindingInstance.el = node;
     bindingInstance.mv = this;
 
-    // node.removeAttribute(bindingInstance.attr.name);
-
     var key = bindingInstance.key,
         epr = this._options.eachPrefixRE,
         isEachKey = epr && epr.test(key),

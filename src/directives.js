@@ -40,7 +40,6 @@ module.exports = {
             this.el.removeAttribute(config.prefix + '-each')
             this.prefixRE = new RegExp('^' + this.arg + '.')
             var ctn = this.container = this.el.parentNode
-            console.log(this.el)
             this.marker = document.createComment('mv-each-' + this.arg + '-marker')
             ctn.insertBefore(this.marker, this.el)
             ctn.removeChild(this.el)
