@@ -69,6 +69,7 @@ Mv.prototype._compileNode = function (node, root) {
         if (eachExp) { // each block
             var binding = bindingParser.parse(eachAttr, eachExp)
             if (binding) {
+                // bindings => { arg: todo, key: todos }
                 self._bind(node, binding)
                 // need to set each block now so it can inherit
                 // parent scope. i.e. the childSeeds must have been
