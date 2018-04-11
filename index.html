@@ -1,46 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>micro vue</title>
+    <title>title</title>
+    <meta charset="utf-8">
+    <script src="dist/seed.js"></script>
+    <style type="text/css">
+        .red {
+            color: red;
+        }
+
+        .todo.done {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
+
 <body>
+    <div id="test">
+        <!-- <p mv-text="msg | capitalize"></p>
+        <p mv-text="msg | uppercase"></p>
+        <p mv-on="click:remove">bye</p>
+        <p mv-text="total | money"></p>
+        <p class="button">Change Message</p>
+        <p mv-class="red:error" mv-show="error">Error</p> -->
+        <ul id="todos">
+            <li class="todo"
+                mv-controller="Todo"
+                mv-each="todo:todos"
+                mv-class="done:todo.done"
+                mv-on="click:todo.toggle"
+                mv-text="todo.title"
+            ></li>
+        </ul>
+    </div>
+    <script>
+        var MVVM = require('seed');
 
-<div id="app">
-    <p>{{getHelloWord}}</p>
-</div>
+        MVVM.filter('money', function (value) {
+            return value
+                ? '$' + value.toFixed(2)
+                : ''
+        })
 
-<script src="vue-demo/vue.1.0.25.js"></script>
-<script>
-    var vm = new MVVM({
-        el: '#app',
-        data: {
-            someStr: 'hello ',
-            className: 'btn',
-            htmlStr: '<span style="color: #f00;">red</span>',
-            child: {
-                someStr: 'World !'
-            }
-        },
-
-        computed: {
-            getHelloWord: function() {
-                return this.someStr + this.child.someStr;
-            }
-        },
-
-        // methods: {
-        //     clickBtn: function(e) {
-        //         var randomStrArr = ['childOne', 'childTwo', 'childThree'];
-        //         this.child.someStr = randomStrArr[parseInt(Math.random() * 3)];
+        // MVVM.controller('TodoList', function (scope, seed) {
+        //     console.log('controller invoked')
+        //     scope.changeMessage = function () {
+        //         scope.msg = (Math.random() * 100).toFixed(2) + '% awesomeness'
         //     }
-        // }
-    });
-
-    // vm.$watch('child.someStr', function() {
-    //     console.log(arguments);
-    // });
-</script>
-
+        //     scope.remove = function () {
+        //         seed.destroy()
+        //     }
+        // })
+        
+        MVVM.controller('Todo', function (scope) {
+            scope.toggle = function () {
+                scope.done = !scope.done
+            }
+        })
+        var list = [
+            {
+                title: 'make this shit kinda work',
+                done: true
+            },
+            {
+                title: 'make this shit work',
+                done: false
+            },
+            {
+                title: 'more features!!!',
+                done: false
+            }
+        ]
+        var s = Date.now()
+        var data = {
+            msg: 'hello!',
+            total: 9999,
+            error: true,
+            todos: [
+                {
+                    title: 'hello!',
+                    done: true
+                },
+                {
+                    title: 'hello!!',
+                    done: false
+                },
+                {
+                    title: 'hello!!!',
+                    done: false
+                }
+            ]
+        }
+        var app = MVVM.bootstrap({
+            el: '#test',
+            data: data
+        })
+        console.log(Date.now() - s + 'ms')
+    </script>
 </body>
+
 </html>
